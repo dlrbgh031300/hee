@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>건당 인센티브 계산기</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --card-border: #2a2d3a;
+    --text: #e8e9ed;
+    --text-dim: #8b8d98;
+    --bronze: #cd7f32;
+    --silver: #a8b4c0;
+    --gold: #f0c850;
+    --platinum: #7dd3fc;
+    --diamond: #c084fc;
+    --accent: #38d9a9;
+  }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 440px;
+  }
+
+  h1 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 28px;
+    letter-spacing: -0.5px;
+    color: var(--accent);
+  }
+
+  /* Input Section */
+  .input-section {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+
+  .input-section label {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .input-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    overflow: hidden;
+  }
+
+  .input-row input {
+    flex: 1;
+    min-width: 0;
+    background: var(--bg);
+    border: 2px solid var(--card-border);
+    border-radius: 12px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.8rem;
+    font-weight: 700;
+    padding: 14px 18px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .input-row input:focus {
+    border-color: var(--accent);
+  }
+
+  .input-row input::placeholder {
+    color: #3a3d4a;
+  }
+
+  .input-row .unit {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Result Card */
+  .result-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+    text-align: center;
+    opacity: 0.4;
+    transition: all 0.3s;
+  }
+
+  .result-card.active {
+    opacity: 1;
+  }
+
+  .result-card.active.bronze { border-color: var(--bronze); }
+  .result-card.active.silver { border-color: var(--silver); }
+  .result-card.active.gold { border-color: var(--gold); }
+  .result-card.active.platinum { border-color: var(--platinum); }
+  .result-card.active.diamond { border-color: var(--diamond); }
+
+  .tier-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    background: #2a2d3a;
+  }
+
+  .tier-badge.bronze { color: var(--bronze); }
+  .tier-badge.silver { color: var(--silver); }
+  .tier-badge.gold { color: var(--gold); }
+  .tier-badge.platinum { color: var(--platinum); }
+  .tier-badge.diamond { color: var(--diamond); }
+
+  .no-tier { color: var(--text-dim); font-size: 0.9rem; }
+
+  .result-total-label {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+
+  .result-total {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+  }
+
+  .breakdown {
+    text-align: left;
+    border-top: 1px solid var(--card-border);
+    padding-top: 14px;
+  }
+
+  .breakdown-title {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .bd-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    font-size: 0.82rem;
+  }
+
+  .bd-row .bd-label {
+    color: var(--text-dim);
+  }
+
+  .bd-row .bd-label .bd-tier {
+    font-weight: 700;
+  }
+
+  .bd-row .bd-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .bd-row.bronze .bd-tier { color: var(--bronze); }
+  .bd-row.silver .bd-tier { color: var(--silver); }
+  .bd-row.gold .bd-tier { color: var(--gold); }
+  .bd-row.platinum .bd-tier { color: var(--platinum); }
+  .bd-row.diamond .bd-tier { color: var(--diamond); }
+
+  /* Tier Table */
+  .tier-table {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .tier-table .header {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 0.8fr;
+    padding: 12px 18px;
+    background: #22252f;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .tier-row {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 0.8fr;
+    padding: 13px 18px;
+    font-size: 0.88rem;
+    border-top: 1px solid #1f222c;
+    transition: background 0.2s;
+    align-items: center;
+  }
+
+  .tier-row.highlight {
+    background: #1e2a2a;
+  }
+
+  .tier-row .name {
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .tier-row .range,
+  .tier-row .per {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--text-dim);
+  }
+
+  .tier-row.highlight .range,
+  .tier-row.highlight .per {
+    color: var(--text);
+  }
+
+  .tier-row .per { text-align: right; }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  .dot.bronze { background: var(--bronze); }
+  .dot.silver { background: var(--silver); }
+  .dot.gold { background: var(--gold); }
+  .dot.platinum { background: var(--platinum); }
+  .dot.diamond { background: var(--diamond); }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>건당 인센티브 계산기</h1>
+
+  <div class="input-section">
+    <label>이번 달 배달 건수</label>
+    <div class="input-row">
+      <input type="number" id="count" placeholder="0" min="0" oninput="calc()">
+      <span class="unit">건</span>
+    </div>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div id="tierBadge"></div>
+    <div class="result-total-label">총 인센티브</div>
+    <div class="result-total" id="totalAmt">0원</div>
+    <div class="breakdown" id="breakdown"></div>
+  </div>
+
+  <div class="tier-table">
+    <div class="header">
+      <span>등급</span><span>구간</span><span style="text-align:right">건당</span>
+    </div>
+    <div class="tier-row" data-tier="bronze">
+      <span class="name"><span class="dot bronze"></span>BRONZE</span>
+      <span class="range">100 ~ 150</span>
+      <span class="per">500원</span>
+    </div>
+    <div class="tier-row" data-tier="silver">
+      <span class="name"><span class="dot silver"></span>SILVER</span>
+      <span class="range">151 ~ 200</span>
+      <span class="per">600원</span>
+    </div>
+    <div class="tier-row" data-tier="gold">
+      <span class="name"><span class="dot gold"></span>GOLD</span>
+      <span class="range">201 ~ 249</span>
+      <span class="per">900원</span>
+    </div>
+    <div class="tier-row" data-tier="platinum">
+      <span class="name"><span class="dot platinum"></span>PLATINUM</span>
+      <span class="range">250 ~ 349</span>
+      <span class="per">1,200원</span>
+    </div>
+    <div class="tier-row" data-tier="diamond">
+      <span class="name"><span class="dot diamond"></span>DIAMOND</span>
+      <span class="range">350+</span>
+      <span class="per">1,500원</span>
+    </div>
+  </div>
+</div>
+
+<script>
+// 누적 구간 (101건부터 시작)
+const bands = [
+  { name: 'BRONZE',   key: 'bronze',   from: 100, to: 150, per: 500  },
+  { name: 'SILVER',   key: 'silver',   from: 151, to: 200, per: 600  },
+  { name: 'GOLD',     key: 'gold',     from: 201, to: 249, per: 900  },
+  { name: 'PLATINUM', key: 'platinum', from: 250, to: 349, per: 1200 },
+  { name: 'DIAMOND',  key: 'diamond',  from: 350, to: Infinity, per: 1500 },
+];
+
+const icons = {
+  bronze: '🥉', silver: '🥈', gold: '🥇', platinum: '💎', diamond: '💠'
+};
+
+function calc() {
+  const n = parseInt(document.getElementById('count').value) || 0;
+  const card = document.getElementById('resultCard');
+  const badge = document.getElementById('tierBadge');
+  const totalEl = document.getElementById('totalAmt');
+  const bdEl = document.getElementById('breakdown');
+
+  document.querySelectorAll('.tier-row').forEach(r => r.classList.remove('highlight'));
+  card.className = 'result-card';
+
+  if (n < 100) {
+    card.classList.remove('active');
+    badge.innerHTML = '<span class="no-tier">100건 이상부터 적용</span>';
+    totalEl.textContent = '0원';
+    bdEl.innerHTML = '';
+    return;
+  }
+
+  let total = 0;
+  let topTier = null;
+  let rows = '';
+
+  for (const b of bands) {
+    if (n < b.from) break;
+    const count = Math.min(n, b.to) - b.from + 1;
+    const amt = count * b.per;
+    total += amt;
+    topTier = b;
+
+    rows += `<div class="bd-row ${b.key}">
+      <span class="bd-label"><span class="bd-tier">${icons[b.key]} ${b.name}</span> ${b.from}~${b.to === Infinity ? n : Math.min(n, b.to)}건 (${count}건 × ${b.per.toLocaleString()}원)</span>
+      <span class="bd-value">${amt.toLocaleString()}원</span>
+    </div>`;
+
+    document.querySelector(`.tier-row[data-tier="${b.key}"]`)?.classList.add('highlight');
+  }
+
+  card.classList.add('active', topTier.key);
+  badge.innerHTML = `<span class="tier-badge ${topTier.key}">${icons[topTier.key]} ${topTier.name}</span>`;
+  totalEl.textContent = total.toLocaleString() + '원';
+  bdEl.innerHTML = `<div class="breakdown-title">구간별 내역</div>${rows}`;
+}
+
+calc();
+</script>
+</body>
+</html>
