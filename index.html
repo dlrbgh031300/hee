@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,444 +9,383 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-:root {
-  --bg: #0f1117;
-  --card: #1a1d27;
-  --card-border: #2a2d3a;
+:root{
+  --bg:#0f1117;
+  --card:#1a1d27;
+  --card-border:#2a2d3a;
 
-  --text: #e8e9ed;
-  --text-dim: #8b8d98;
+  --text:#e8e9ed;
+  --text-dim:#8b8d98;
 
-  --entry: #9ca3af;
-  --bronze: #cd7f32;
-  --silver: #c0c7d1;
-  --gold: #facc15;
-  --diamond: #38bdf8;
-  --master: #c084fc;
-  --legend: #f97316;
+  --entry:#9ca3af;
+  --bronze:#cd7f32;
+  --silver:#c0c7d1;
+  --gold:#facc15;
+  --diamond:#38bdf8;
+  --master:#c084fc;
+  --legend:#f97316;
 
-  --accent: #38d9a9;
+  --accent:#38d9a9;
 }
 
-body {
-  font-family: 'Noto Sans KR', sans-serif;
-  background: var(--bg);
-  color: var(--text);
+body{
+  font-family:'Noto Sans KR', sans-serif;
+  background:var(--bg);
+  color:var(--text);
 
-  min-height: 100vh;
+  min-height:100vh;
 
-  display: flex;
-  justify-content: center;
+  display:flex;
+  justify-content:center;
 
-  padding: 32px 16px;
+  padding:32px 16px;
 }
 
-.container {
-  width: 100%;
-  max-width: 460px;
+.container{
+  width:100%;
+  max-width:460px;
 }
 
-h1 {
-  font-size: 1.4rem;
-  font-weight: 800;
-  text-align: center;
+h1{
+  font-size:1.4rem;
+  font-weight:800;
+  text-align:center;
 
-  margin-bottom: 28px;
+  margin-bottom:28px;
 
-  color: var(--accent);
-
-  letter-spacing: -0.5px;
+  color:var(--accent);
 }
 
 /* INPUT */
 
-.input-section {
-  background: var(--card);
+.input-section{
+  background:var(--card);
 
-  border: 1px solid var(--card-border);
-  border-radius: 18px;
+  border:1px solid var(--card-border);
+  border-radius:18px;
 
-  padding: 24px;
+  padding:24px;
 
-  margin-bottom: 16px;
+  margin-bottom:16px;
 }
 
-.input-section label {
-  display: block;
+.input-section label{
+  display:block;
 
-  font-size: 0.82rem;
-  font-weight: 600;
+  font-size:.82rem;
+  font-weight:600;
 
-  color: var(--text-dim);
+  color:var(--text-dim);
 
-  margin-bottom: 10px;
+  margin-bottom:10px;
 }
 
-.input-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.input-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
-.input-row input {
-  flex: 1;
+.input-row input{
+  flex:1;
 
-  background: var(--bg);
+  background:var(--bg);
 
-  border: 2px solid var(--card-border);
-  border-radius: 14px;
+  border:2px solid var(--card-border);
+  border-radius:14px;
 
-  color: var(--text);
+  color:var(--text);
 
-  padding: 16px 18px;
+  padding:16px 18px;
 
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 1.8rem;
-  font-weight: 700;
+  font-family:'JetBrains Mono', monospace;
+  font-size:1.8rem;
+  font-weight:700;
 
-  text-align: center;
+  text-align:center;
 
-  outline: none;
+  outline:none;
 
-  transition: 0.2s;
+  transition:.2s;
 }
 
-.input-row input:focus {
-  border-color: var(--accent);
+.input-row input:focus{
+  border-color:var(--accent);
 }
 
-.input-row input::placeholder {
-  color: #3a3d4a;
+.input-row input::placeholder{
+  color:#3a3d4a;
 }
 
-.input-row .unit {
-  flex-shrink: 0;
+.input-row .unit{
+  flex-shrink:0;
 
-  color: var(--text-dim);
+  color:var(--text-dim);
 
-  font-size: 1.05rem;
-  font-weight: 700;
+  font-size:1.05rem;
+  font-weight:700;
 }
 
 /* RESULT CARD */
 
-.result-card {
-  background: var(--card);
+.result-card{
+  background:var(--card);
 
-  border: 1px solid var(--card-border);
-  border-radius: 18px;
+  border:1px solid var(--card-border);
+  border-radius:18px;
 
-  padding: 24px;
+  padding:24px;
 
-  margin-bottom: 16px;
+  margin-bottom:16px;
 
-  text-align: center;
+  text-align:center;
 
-  opacity: 0.4;
+  opacity:.4;
 
-  transition: 0.25s;
+  transition:.25s;
 }
 
-.result-card.active {
-  opacity: 1;
+.result-card.active{
+  opacity:1;
 }
 
-.result-card.active.entry {
-  border-color: var(--entry);
+.result-card.active.entry{
+  border-color:var(--entry);
 }
 
-.result-card.active.bronze {
-  border-color: var(--bronze);
+.result-card.active.bronze{
+  border-color:var(--bronze);
 }
 
-.result-card.active.silver {
-  border-color: var(--silver);
+.result-card.active.silver{
+  border-color:var(--silver);
 }
 
-.result-card.active.gold {
-  border-color: var(--gold);
+.result-card.active.gold{
+  border-color:var(--gold);
 }
 
-.result-card.active.diamond {
-  border-color: var(--diamond);
+.result-card.active.diamond{
+  border-color:var(--diamond);
 }
 
-.result-card.active.master {
-  border-color: var(--master);
+.result-card.active.master{
+  border-color:var(--master);
 }
 
-.result-card.active.legend {
-  border-color: var(--legend);
+.result-card.active.legend{
+  border-color:var(--legend);
 }
 
-.tier-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+.tier-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
 
-  padding: 6px 16px;
+  padding:6px 16px;
 
-  border-radius: 20px;
+  border-radius:20px;
 
-  background: #252836;
+  background:#252836;
 
-  font-size: 0.86rem;
-  font-weight: 800;
+  font-size:.86rem;
+  font-weight:800;
 
-  letter-spacing: 1px;
+  letter-spacing:1px;
 
-  margin-bottom: 16px;
+  margin-bottom:16px;
 }
 
-.tier-badge.entry {
-  color: var(--entry);
+.tier-badge.entry{ color:var(--entry); }
+.tier-badge.bronze{ color:var(--bronze); }
+.tier-badge.silver{ color:var(--silver); }
+.tier-badge.gold{ color:var(--gold); }
+.tier-badge.diamond{ color:var(--diamond); }
+.tier-badge.master{ color:var(--master); }
+.tier-badge.legend{ color:var(--legend); }
+
+.no-tier{
+  color:var(--text-dim);
+  font-size:.9rem;
 }
 
-.tier-badge.bronze {
-  color: var(--bronze);
+.result-total-label{
+  font-size:.8rem;
+  color:var(--text-dim);
+
+  margin-bottom:6px;
 }
 
-.tier-badge.silver {
-  color: var(--silver);
-}
+.result-total{
+  font-family:'JetBrains Mono', monospace;
 
-.tier-badge.gold {
-  color: var(--gold);
-}
+  font-size:2.5rem;
+  font-weight:700;
 
-.tier-badge.diamond {
-  color: var(--diamond);
-}
+  color:var(--accent);
 
-.tier-badge.master {
-  color: var(--master);
-}
+  letter-spacing:-1px;
 
-.tier-badge.legend {
-  color: var(--legend);
-}
-
-.no-tier {
-  color: var(--text-dim);
-  font-size: 0.9rem;
-}
-
-.result-total-label {
-  font-size: 0.8rem;
-  color: var(--text-dim);
-
-  margin-bottom: 6px;
-}
-
-.result-total {
-  font-family: 'JetBrains Mono', monospace;
-
-  font-size: 2.5rem;
-  font-weight: 700;
-
-  color: var(--accent);
-
-  letter-spacing: -1px;
-
-  margin-bottom: 16px;
+  margin-bottom:16px;
 }
 
 /* BREAKDOWN */
 
-.breakdown {
-  text-align: left;
+.breakdown{
+  text-align:left;
 
-  border-top: 1px solid var(--card-border);
+  border-top:1px solid var(--card-border);
 
-  padding-top: 14px;
+  padding-top:14px;
 }
 
-.breakdown-title {
-  font-size: 0.72rem;
-  color: var(--text-dim);
+.breakdown-title{
+  font-size:.72rem;
+  color:var(--text-dim);
 
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  text-transform:uppercase;
+  letter-spacing:1px;
 
-  margin-bottom: 10px;
+  margin-bottom:10px;
 
-  font-weight: 700;
+  font-weight:700;
 }
 
-.bd-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 10px;
+.bd-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
 
-  padding: 6px 0;
+  padding:6px 0;
 
-  font-size: 0.82rem;
+  font-size:.82rem;
 }
 
-.bd-label {
-  color: var(--text-dim);
-  line-height: 1.45;
+.bd-label{
+  color:var(--text-dim);
+  line-height:1.45;
 }
 
-.bd-tier {
-  font-weight: 800;
+.bd-tier{
+  font-weight:800;
 }
 
-.bd-value {
-  flex-shrink: 0;
+.bd-value{
+  flex-shrink:0;
 
-  font-family: 'JetBrains Mono', monospace;
-  font-weight: 700;
+  font-family:'JetBrains Mono', monospace;
+  font-weight:700;
 
-  color: var(--text);
+  color:var(--text);
 }
 
-.bd-row.entry .bd-tier {
-  color: var(--entry);
-}
-
-.bd-row.bronze .bd-tier {
-  color: var(--bronze);
-}
-
-.bd-row.silver .bd-tier {
-  color: var(--silver);
-}
-
-.bd-row.gold .bd-tier {
-  color: var(--gold);
-}
-
-.bd-row.diamond .bd-tier {
-  color: var(--diamond);
-}
-
-.bd-row.master .bd-tier {
-  color: var(--master);
-}
-
-.bd-row.legend .bd-tier {
-  color: var(--legend);
-}
+.bd-row.entry .bd-tier{ color:var(--entry); }
+.bd-row.bronze .bd-tier{ color:var(--bronze); }
+.bd-row.silver .bd-tier{ color:var(--silver); }
+.bd-row.gold .bd-tier{ color:var(--gold); }
+.bd-row.diamond .bd-tier{ color:var(--diamond); }
+.bd-row.master .bd-tier{ color:var(--master); }
+.bd-row.legend .bd-tier{ color:var(--legend); }
 
 /* TIER TABLE */
 
-.tier-table {
-  overflow: hidden;
+.tier-table{
+  overflow:hidden;
 
-  background: var(--card);
+  background:var(--card);
 
-  border: 1px solid var(--card-border);
-  border-radius: 18px;
+  border:1px solid var(--card-border);
+  border-radius:18px;
 }
 
-.tier-table .header {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr 0.8fr;
+.tier-table .header{
+  display:grid;
+  grid-template-columns:1.2fr 1fr .8fr;
 
-  padding: 12px 18px;
+  padding:12px 18px;
 
-  background: #22252f;
+  background:#22252f;
 
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size:.72rem;
+  font-weight:700;
 
-  color: var(--text-dim);
+  color:var(--text-dim);
 
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  text-transform:uppercase;
+  letter-spacing:1px;
 }
 
-.tier-row {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr 0.8fr;
+.tier-row{
+  display:grid;
+  grid-template-columns:1.2fr 1fr .8fr;
 
-  align-items: center;
+  align-items:center;
 
-  padding: 14px 18px;
+  padding:14px 18px;
 
-  border-top: 1px solid #1f222c;
+  border-top:1px solid #1f222c;
 
-  transition: 0.2s;
+  transition:.2s;
 }
 
-.tier-row.highlight {
-  background: #1f2d2d;
+.tier-row.highlight{
+  background:#1f2d2d;
 }
 
-.tier-row .name {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.tier-row .name{
+  display:flex;
+  align-items:center;
+  gap:6px;
 
-  font-weight: 800;
+  font-weight:800;
 
-  font-size: 0.9rem;
+  font-size:.9rem;
 }
 
 .tier-row .range,
-.tier-row .per {
-  font-family: 'JetBrains Mono', monospace;
+.tier-row .per{
+  font-family:'JetBrains Mono', monospace;
 
-  font-size: 0.82rem;
+  font-size:.82rem;
 
-  color: var(--text-dim);
+  color:var(--text-dim);
 }
 
 .tier-row.highlight .range,
-.tier-row.highlight .per {
-  color: var(--text);
+.tier-row.highlight .per{
+  color:var(--text);
 }
 
-.tier-row .per {
-  text-align: right;
+.tier-row .per{
+  text-align:right;
 }
 
-.dot {
-  width: 8px;
-  height: 8px;
+.dot{
+  width:8px;
+  height:8px;
 
-  border-radius: 50%;
+  border-radius:50%;
 
-  display: inline-block;
+  display:inline-block;
 
-  flex-shrink: 0;
+  flex-shrink:0;
 }
 
-.dot.entry {
-  background: var(--entry);
-}
+.dot.entry{ background:var(--entry); }
+.dot.bronze{ background:var(--bronze); }
+.dot.silver{ background:var(--silver); }
+.dot.gold{ background:var(--gold); }
+.dot.diamond{ background:var(--diamond); }
+.dot.master{ background:var(--master); }
+.dot.legend{ background:var(--legend); }
 
-.dot.bronze {
-  background: var(--bronze);
-}
-
-.dot.silver {
-  background: var(--silver);
-}
-
-.dot.gold {
-  background: var(--gold);
-}
-
-.dot.diamond {
-  background: var(--diamond);
-}
-
-.dot.master {
-  background: var(--master);
-}
-
-.dot.legend {
-  background: var(--legend);
-}
 </style>
 </head>
 
@@ -464,7 +404,6 @@ h1 {
         id="count"
         placeholder="0"
         min="0"
-        oninput="calc()"
       />
 
       <span class="unit">건</span>
@@ -475,13 +414,16 @@ h1 {
 
     <div id="tierBadge"></div>
 
-    <div class="result-total-label">총 프로모션</div>
+    <div class="result-total-label">
+      총 프로모션
+    </div>
 
     <div class="result-total" id="totalAmt">
       0원
     </div>
 
     <div class="breakdown" id="breakdown"></div>
+
   </div>
 
   <div class="tier-table">
@@ -493,79 +435,44 @@ h1 {
     </div>
 
     <div class="tier-row" data-tier="entry">
-      <span class="name">
-        <span class="dot entry"></span>
-        ENTRY
-      </span>
-
+      <span class="name"><span class="dot entry"></span>ENTRY</span>
       <span class="range">121 ~ 150</span>
-
       <span class="per">200원</span>
     </div>
 
     <div class="tier-row" data-tier="bronze">
-      <span class="name">
-        <span class="dot bronze"></span>
-        BRONZE
-      </span>
-
+      <span class="name"><span class="dot bronze"></span>BRONZE</span>
       <span class="range">151 ~ 200</span>
-
       <span class="per">500원</span>
     </div>
 
     <div class="tier-row" data-tier="silver">
-      <span class="name">
-        <span class="dot silver"></span>
-        SILVER
-      </span>
-
+      <span class="name"><span class="dot silver"></span>SILVER</span>
       <span class="range">201 ~ 250</span>
-
       <span class="per">800원</span>
     </div>
 
     <div class="tier-row" data-tier="gold">
-      <span class="name">
-        <span class="dot gold"></span>
-        GOLD
-      </span>
-
+      <span class="name"><span class="dot gold"></span>GOLD</span>
       <span class="range">251 ~ 300</span>
-
       <span class="per">1,000원</span>
     </div>
 
     <div class="tier-row" data-tier="diamond">
-      <span class="name">
-        <span class="dot diamond"></span>
-        DIAMOND
-      </span>
-
+      <span class="name"><span class="dot diamond"></span>DIAMOND</span>
       <span class="range">301 ~ 330</span>
-
       <span class="per">1,200원</span>
     </div>
 
     <div class="tier-row" data-tier="master">
-      <span class="name">
-        <span class="dot master"></span>
-        MASTER
-      </span>
-
+      <span class="name"><span class="dot master"></span>MASTER</span>
       <span class="range">331 ~ 360</span>
-
       <span class="per">1,300원</span>
     </div>
 
     <div class="tier-row" data-tier="legend">
-      <span class="name">
-        <span class="dot legend"></span>
-        LEGEND
-      </span>
-
+      <span class="name"><span class="dot legend"></span>LEGEND</span>
       <span class="range">361+</span>
-
       <span class="per">1,400원</span>
     </div>
 
@@ -574,76 +481,31 @@ h1 {
 </div>
 
 <script>
-// 전 구간 누적 지급
 const bands = [
-  {
-    name: 'ENTRY',
-    key: 'entry',
-    from: 121,
-    to: 150,
-    per: 200
-  },
-
-  {
-    name: 'BRONZE',
-    key: 'bronze',
-    from: 151,
-    to: 200,
-    per: 500
-  },
-
-  {
-    name: 'SILVER',
-    key: 'silver',
-    from: 201,
-    to: 250,
-    per: 800
-  },
-
-  {
-    name: 'GOLD',
-    key: 'gold',
-    from: 251,
-    to: 300,
-    per: 1000
-  },
-
-  {
-    name: 'DIAMOND',
-    key: 'diamond',
-    from: 301,
-    to: 330,
-    per: 1200
-  },
-
-  {
-    name: 'MASTER',
-    key: 'master',
-    from: 331,
-    to: 360,
-    per: 1300
-  },
-
-  {
-    name: 'LEGEND',
-    key: 'legend',
-    from: 361,
-    to: Infinity,
-    per: 1400
-  }
+  { name:'ENTRY', key:'entry', from:121, to:150, per:200 },
+  { name:'BRONZE', key:'bronze', from:151, to:200, per:500 },
+  { name:'SILVER', key:'silver', from:201, to:250, per:800 },
+  { name:'GOLD', key:'gold', from:251, to:300, per:1000 },
+  { name:'DIAMOND', key:'diamond', from:301, to:330, per:1200 },
+  { name:'MASTER', key:'master', from:331, to:360, per:1300 },
+  { name:'LEGEND', key:'legend', from:361, to:Infinity, per:1400 }
 ];
 
 const icons = {
-  entry: '🚀',
-  bronze: '🥉',
-  silver: '🥈',
-  gold: '🥇',
-  diamond: '💎',
-  master: '👑',
-  legend: '🏆'
+  entry:'🚀',
+  bronze:'🥉',
+  silver:'🥈',
+  gold:'🥇',
+  diamond:'💎',
+  master:'👑',
+  legend:'🏆'
 };
 
-function calc() {
+document
+  .getElementById('count')
+  .addEventListener('input', calc);
+
+function calc(){
 
   const n =
     parseInt(document.getElementById('count').value) || 0;
@@ -660,15 +522,13 @@ function calc() {
   const bdEl =
     document.getElementById('breakdown');
 
-  // 초기화
   document
     .querySelectorAll('.tier-row')
     .forEach(r => r.classList.remove('highlight'));
 
   card.className = 'result-card';
 
-  // 최소 조건
-  if (n < 121) {
+  if(n < 121){
 
     badge.innerHTML =
       '<span class="no-tier">121건 이상부터 적용</span>';
@@ -684,9 +544,9 @@ function calc() {
   let topTier = null;
   let rows = '';
 
-  for (const b of bands) {
+  for(const b of bands){
 
-    if (n < b.from) break;
+    if(n < b.from) break;
 
     const upper =
       Math.min(n, b.to);
@@ -694,7 +554,7 @@ function calc() {
     const count =
       upper - b.from + 1;
 
-    if (count <= 0) continue;
+    if(count <= 0) continue;
 
     const amt =
       count * b.per;
@@ -705,60 +565,48 @@ function calc() {
 
     rows += `
       <div class="bd-row ${b.key}">
-
         <span class="bd-label">
-
           <span class="bd-tier">
             ${icons[b.key]} ${b.name}
           </span>
-
           ${b.from} ~ ${upper}건
           (${count}건 × ${b.per.toLocaleString()}원)
-
         </span>
 
         <span class="bd-value">
           ${amt.toLocaleString()}원
         </span>
-
       </div>
     `;
 
     document
-      .querySelector(
-        \`.tier-row[data-tier="${b.key}"]\`
-      )
-      ?.classList.add('highlight');
+      .querySelector('.tier-row[data-tier="' + b.key + '"]')
+      .classList.add('highlight');
   }
 
-  // 카드 활성화
-  card.classList.add('active', topTier.key);
+  card.classList.add('active');
+  card.classList.add(topTier.key);
 
-  // 뱃지
   badge.innerHTML = `
     <span class="tier-badge ${topTier.key}">
-      ${icons[topTier.key]}
-      ${topTier.name}
+      ${icons[topTier.key]} ${topTier.name}
     </span>
   `;
 
-  // 총액
   totalEl.textContent =
     total.toLocaleString() + '원';
 
-  // 내역
   bdEl.innerHTML = `
     <div class="breakdown-title">
       구간별 누적 내역
     </div>
-
     ${rows}
   `;
 }
 
-// 초기 실행
 calc();
 </script>
 
 </body>
 </html>
+```
