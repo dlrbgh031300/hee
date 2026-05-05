@@ -53,6 +53,7 @@ body{
 .container{
   width:100%;
   max-width:520px;
+  overflow:hidden;
 }
 
 /* TITLE */
@@ -98,10 +99,13 @@ h1{
   display:flex;
   align-items:center;
   gap:10px;
+  width:100%;
 }
 
 .input-row input{
   flex:1;
+  width:100%;
+  min-width:0;
 
   background:var(--bg);
 
@@ -133,6 +137,7 @@ h1{
 
 .input-row .unit{
   flex-shrink:0;
+  white-space:nowrap;
 
   color:var(--text-dim);
 
@@ -537,79 +542,44 @@ h1{
     </div>
 
     <div class="tier-row" data-tier="entry">
-      <span class="name">
-        <span class="dot entry"></span>
-        ENTRY
-      </span>
-
+      <span class="name"><span class="dot entry"></span>ENTRY</span>
       <span class="range">121 ~ 150</span>
-
       <span class="per">200원</span>
     </div>
 
     <div class="tier-row" data-tier="bronze">
-      <span class="name">
-        <span class="dot bronze"></span>
-        BRONZE
-      </span>
-
+      <span class="name"><span class="dot bronze"></span>BRONZE</span>
       <span class="range">151 ~ 200</span>
-
       <span class="per">500원</span>
     </div>
 
     <div class="tier-row" data-tier="silver">
-      <span class="name">
-        <span class="dot silver"></span>
-        SILVER
-      </span>
-
+      <span class="name"><span class="dot silver"></span>SILVER</span>
       <span class="range">201 ~ 250</span>
-
       <span class="per">800원</span>
     </div>
 
     <div class="tier-row" data-tier="gold">
-      <span class="name">
-        <span class="dot gold"></span>
-        GOLD
-      </span>
-
+      <span class="name"><span class="dot gold"></span>GOLD</span>
       <span class="range">251 ~ 300</span>
-
       <span class="per">1,000원</span>
     </div>
 
     <div class="tier-row" data-tier="diamond">
-      <span class="name">
-        <span class="dot diamond"></span>
-        DIAMOND
-      </span>
-
+      <span class="name"><span class="dot diamond"></span>DIAMOND</span>
       <span class="range">301 ~ 330</span>
-
       <span class="per">1,200원</span>
     </div>
 
     <div class="tier-row" data-tier="master">
-      <span class="name">
-        <span class="dot master"></span>
-        MASTER
-      </span>
-
+      <span class="name"><span class="dot master"></span>MASTER</span>
       <span class="range">331 ~ 360</span>
-
       <span class="per">1,300원</span>
     </div>
 
     <div class="tier-row" data-tier="legend">
-      <span class="name">
-        <span class="dot legend"></span>
-        LEGEND
-      </span>
-
+      <span class="name"><span class="dot legend"></span>LEGEND</span>
       <span class="range">361+</span>
-
       <span class="per">1,400원</span>
     </div>
 
