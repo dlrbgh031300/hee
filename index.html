@@ -1,358 +1,682 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>프로모션 계산기</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  :root {
-    --bg: #0f1117;
-    --card: #1a1d27;
-    --card-border: #2a2d3a;
-    --text: #e8e9ed;
-    --text-dim: #8b8d98;
-    --bronze: #cd7f32;
-    --silver: #a8b4c0;
-    --gold: #f0c850;
-    --platinum: #7dd3fc;
-    --diamond: #c084fc;
-    --accent: #38d9a9;
-  }
+:root {
+  --bg: #0f1117;
+  --card: #1a1d27;
+  --card-border: #2a2d3a;
 
-  body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    padding: 32px 16px;
-  }
+  --text: #e8e9ed;
+  --text-dim: #8b8d98;
 
-  .container {
-    width: 100%;
-    max-width: 440px;
-  }
+  --entry: #9ca3af;
+  --bronze: #cd7f32;
+  --silver: #c0c7d1;
+  --gold: #facc15;
+  --diamond: #38bdf8;
+  --master: #c084fc;
+  --legend: #f97316;
 
-  h1 {
-    font-size: 1.3rem;
-    font-weight: 800;
-    text-align: center;
-    margin-bottom: 28px;
-    letter-spacing: -0.5px;
-    color: var(--accent);
-  }
+  --accent: #38d9a9;
+}
 
-  /* Input Section */
-  .input-section {
-    background: var(--card);
-    border: 1px solid var(--card-border);
-    border-radius: 16px;
-    padding: 24px;
-    margin-bottom: 16px;
-  }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
 
-  .input-section label {
-    font-size: 0.82rem;
-    color: var(--text-dim);
-    font-weight: 600;
-    display: block;
-    margin-bottom: 10px;
-  }
+  min-height: 100vh;
 
-  .input-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    overflow: hidden;
-  }
+  display: flex;
+  justify-content: center;
 
-  .input-row input {
-    flex: 1;
-    min-width: 0;
-    background: var(--bg);
-    border: 2px solid var(--card-border);
-    border-radius: 12px;
-    color: var(--text);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1.8rem;
-    font-weight: 700;
-    padding: 14px 18px;
-    text-align: center;
-    outline: none;
-    transition: border-color 0.2s;
-  }
+  padding: 32px 16px;
+}
 
-  .input-row input:focus {
-    border-color: var(--accent);
-  }
+.container {
+  width: 100%;
+  max-width: 460px;
+}
 
-  .input-row input::placeholder {
-    color: #3a3d4a;
-  }
+h1 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  text-align: center;
 
-  .input-row .unit {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--text-dim);
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
+  margin-bottom: 28px;
 
-  /* Result Card */
-  .result-card {
-    background: var(--card);
-    border: 1px solid var(--card-border);
-    border-radius: 16px;
-    padding: 24px;
-    margin-bottom: 16px;
-    text-align: center;
-    opacity: 0.4;
-    transition: all 0.3s;
-  }
+  color: var(--accent);
 
-  .result-card.active {
-    opacity: 1;
-  }
+  letter-spacing: -0.5px;
+}
 
-  .result-card.active.bronze { border-color: var(--bronze); }
-  .result-card.active.silver { border-color: var(--silver); }
-  .result-card.active.gold { border-color: var(--gold); }
-  .result-card.active.platinum { border-color: var(--platinum); }
-  .result-card.active.diamond { border-color: var(--diamond); }
+/* INPUT */
 
-  .tier-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 800;
-    letter-spacing: 1px;
-    margin-bottom: 16px;
-    background: #2a2d3a;
-  }
+.input-section {
+  background: var(--card);
 
-  .tier-badge.bronze { color: var(--bronze); }
-  .tier-badge.silver { color: var(--silver); }
-  .tier-badge.gold { color: var(--gold); }
-  .tier-badge.platinum { color: var(--platinum); }
-  .tier-badge.diamond { color: var(--diamond); }
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
 
-  .no-tier { color: var(--text-dim); font-size: 0.9rem; }
+  padding: 24px;
 
-  .result-total-label {
-    font-size: 0.78rem;
-    color: var(--text-dim);
-    margin-bottom: 4px;
-  }
+  margin-bottom: 16px;
+}
 
-  .result-total {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 2.4rem;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: -1px;
-    margin-bottom: 16px;
-  }
+.input-section label {
+  display: block;
 
-  .breakdown {
-    text-align: left;
-    border-top: 1px solid var(--card-border);
-    padding-top: 14px;
-  }
+  font-size: 0.82rem;
+  font-weight: 600;
 
-  .breakdown-title {
-    font-size: 0.72rem;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 8px;
-    font-weight: 600;
-  }
+  color: var(--text-dim);
 
-  .bd-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 0;
-    font-size: 0.82rem;
-  }
+  margin-bottom: 10px;
+}
 
-  .bd-row .bd-label {
-    color: var(--text-dim);
-  }
+.input-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
-  .bd-row .bd-label .bd-tier {
-    font-weight: 700;
-  }
+.input-row input {
+  flex: 1;
 
-  .bd-row .bd-value {
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 600;
-    color: var(--text);
-  }
+  background: var(--bg);
 
-  .bd-row.bronze .bd-tier { color: var(--bronze); }
-  .bd-row.silver .bd-tier { color: var(--silver); }
-  .bd-row.gold .bd-tier { color: var(--gold); }
-  .bd-row.platinum .bd-tier { color: var(--platinum); }
-  .bd-row.diamond .bd-tier { color: var(--diamond); }
+  border: 2px solid var(--card-border);
+  border-radius: 14px;
 
-  /* Tier Table */
-  .tier-table {
-    background: var(--card);
-    border: 1px solid var(--card-border);
-    border-radius: 16px;
-    overflow: hidden;
-  }
+  color: var(--text);
 
-  .tier-table .header {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr 0.8fr;
-    padding: 12px 18px;
-    background: #22252f;
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
+  padding: 16px 18px;
 
-  .tier-row {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr 0.8fr;
-    padding: 13px 18px;
-    font-size: 0.88rem;
-    border-top: 1px solid #1f222c;
-    transition: background 0.2s;
-    align-items: center;
-  }
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.8rem;
+  font-weight: 700;
 
-  .tier-row.highlight {
-    background: #1e2a2a;
-  }
+  text-align: center;
 
-  .tier-row .name {
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
+  outline: none;
 
-  .tier-row .range,
-  .tier-row .per {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.82rem;
-    color: var(--text-dim);
-  }
+  transition: 0.2s;
+}
 
-  .tier-row.highlight .range,
-  .tier-row.highlight .per {
-    color: var(--text);
-  }
+.input-row input:focus {
+  border-color: var(--accent);
+}
 
-  .tier-row .per { text-align: right; }
+.input-row input::placeholder {
+  color: #3a3d4a;
+}
 
-  .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    display: inline-block;
-    flex-shrink: 0;
-  }
+.input-row .unit {
+  flex-shrink: 0;
 
-  .dot.bronze { background: var(--bronze); }
-  .dot.silver { background: var(--silver); }
-  .dot.gold { background: var(--gold); }
-  .dot.platinum { background: var(--platinum); }
-  .dot.diamond { background: var(--diamond); }
+  color: var(--text-dim);
+
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+/* RESULT CARD */
+
+.result-card {
+  background: var(--card);
+
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
+
+  padding: 24px;
+
+  margin-bottom: 16px;
+
+  text-align: center;
+
+  opacity: 0.4;
+
+  transition: 0.25s;
+}
+
+.result-card.active {
+  opacity: 1;
+}
+
+.result-card.active.entry {
+  border-color: var(--entry);
+}
+
+.result-card.active.bronze {
+  border-color: var(--bronze);
+}
+
+.result-card.active.silver {
+  border-color: var(--silver);
+}
+
+.result-card.active.gold {
+  border-color: var(--gold);
+}
+
+.result-card.active.diamond {
+  border-color: var(--diamond);
+}
+
+.result-card.active.master {
+  border-color: var(--master);
+}
+
+.result-card.active.legend {
+  border-color: var(--legend);
+}
+
+.tier-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 6px 16px;
+
+  border-radius: 20px;
+
+  background: #252836;
+
+  font-size: 0.86rem;
+  font-weight: 800;
+
+  letter-spacing: 1px;
+
+  margin-bottom: 16px;
+}
+
+.tier-badge.entry {
+  color: var(--entry);
+}
+
+.tier-badge.bronze {
+  color: var(--bronze);
+}
+
+.tier-badge.silver {
+  color: var(--silver);
+}
+
+.tier-badge.gold {
+  color: var(--gold);
+}
+
+.tier-badge.diamond {
+  color: var(--diamond);
+}
+
+.tier-badge.master {
+  color: var(--master);
+}
+
+.tier-badge.legend {
+  color: var(--legend);
+}
+
+.no-tier {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+.result-total-label {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+
+  margin-bottom: 6px;
+}
+
+.result-total {
+  font-family: 'JetBrains Mono', monospace;
+
+  font-size: 2.5rem;
+  font-weight: 700;
+
+  color: var(--accent);
+
+  letter-spacing: -1px;
+
+  margin-bottom: 16px;
+}
+
+/* BREAKDOWN */
+
+.breakdown {
+  text-align: left;
+
+  border-top: 1px solid var(--card-border);
+
+  padding-top: 14px;
+}
+
+.breakdown-title {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+
+  text-transform: uppercase;
+  letter-spacing: 1px;
+
+  margin-bottom: 10px;
+
+  font-weight: 700;
+}
+
+.bd-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+
+  padding: 6px 0;
+
+  font-size: 0.82rem;
+}
+
+.bd-label {
+  color: var(--text-dim);
+  line-height: 1.45;
+}
+
+.bd-tier {
+  font-weight: 800;
+}
+
+.bd-value {
+  flex-shrink: 0;
+
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+
+  color: var(--text);
+}
+
+.bd-row.entry .bd-tier {
+  color: var(--entry);
+}
+
+.bd-row.bronze .bd-tier {
+  color: var(--bronze);
+}
+
+.bd-row.silver .bd-tier {
+  color: var(--silver);
+}
+
+.bd-row.gold .bd-tier {
+  color: var(--gold);
+}
+
+.bd-row.diamond .bd-tier {
+  color: var(--diamond);
+}
+
+.bd-row.master .bd-tier {
+  color: var(--master);
+}
+
+.bd-row.legend .bd-tier {
+  color: var(--legend);
+}
+
+/* TIER TABLE */
+
+.tier-table {
+  overflow: hidden;
+
+  background: var(--card);
+
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
+}
+
+.tier-table .header {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 0.8fr;
+
+  padding: 12px 18px;
+
+  background: #22252f;
+
+  font-size: 0.72rem;
+  font-weight: 700;
+
+  color: var(--text-dim);
+
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.tier-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 0.8fr;
+
+  align-items: center;
+
+  padding: 14px 18px;
+
+  border-top: 1px solid #1f222c;
+
+  transition: 0.2s;
+}
+
+.tier-row.highlight {
+  background: #1f2d2d;
+}
+
+.tier-row .name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  font-weight: 800;
+
+  font-size: 0.9rem;
+}
+
+.tier-row .range,
+.tier-row .per {
+  font-family: 'JetBrains Mono', monospace;
+
+  font-size: 0.82rem;
+
+  color: var(--text-dim);
+}
+
+.tier-row.highlight .range,
+.tier-row.highlight .per {
+  color: var(--text);
+}
+
+.tier-row .per {
+  text-align: right;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  display: inline-block;
+
+  flex-shrink: 0;
+}
+
+.dot.entry {
+  background: var(--entry);
+}
+
+.dot.bronze {
+  background: var(--bronze);
+}
+
+.dot.silver {
+  background: var(--silver);
+}
+
+.dot.gold {
+  background: var(--gold);
+}
+
+.dot.diamond {
+  background: var(--diamond);
+}
+
+.dot.master {
+  background: var(--master);
+}
+
+.dot.legend {
+  background: var(--legend);
+}
 </style>
 </head>
+
 <body>
+
 <div class="container">
-  <h1>프로모션 계산기</h1>
+
+  <h1>주간 누적 프로모션 계산기</h1>
 
   <div class="input-section">
-    <label>수 ~ 차주 화 배달 건수</label>
+    <label>수 ~ 차주 화 배달 완료 건수</label>
+
     <div class="input-row">
-      <input type="number" id="count" placeholder="0" min="0" oninput="calc()">
+      <input
+        type="number"
+        id="count"
+        placeholder="0"
+        min="0"
+        oninput="calc()"
+      />
+
       <span class="unit">건</span>
     </div>
   </div>
 
   <div class="result-card" id="resultCard">
+
     <div id="tierBadge"></div>
+
     <div class="result-total-label">총 프로모션</div>
-    <div class="result-total" id="totalAmt">0원</div>
+
+    <div class="result-total" id="totalAmt">
+      0원
+    </div>
+
     <div class="breakdown" id="breakdown"></div>
   </div>
 
   <div class="tier-table">
+
     <div class="header">
-      <span>등급</span><span>구간</span><span style="text-align:right">건당</span>
+      <span>등급</span>
+      <span>구간</span>
+      <span style="text-align:right;">건당</span>
     </div>
+
+    <div class="tier-row" data-tier="entry">
+      <span class="name">
+        <span class="dot entry"></span>
+        ENTRY
+      </span>
+
+      <span class="range">121 ~ 150</span>
+
+      <span class="per">200원</span>
+    </div>
+
     <div class="tier-row" data-tier="bronze">
-      <span class="name"><span class="dot bronze"></span>BRONZE</span>
-      <span class="range">100 ~ 150</span>
+      <span class="name">
+        <span class="dot bronze"></span>
+        BRONZE
+      </span>
+
+      <span class="range">151 ~ 200</span>
+
       <span class="per">500원</span>
     </div>
+
     <div class="tier-row" data-tier="silver">
-      <span class="name"><span class="dot silver"></span>SILVER</span>
-      <span class="range">151 ~ 200</span>
-      <span class="per">600원</span>
+      <span class="name">
+        <span class="dot silver"></span>
+        SILVER
+      </span>
+
+      <span class="range">201 ~ 250</span>
+
+      <span class="per">800원</span>
     </div>
+
     <div class="tier-row" data-tier="gold">
-      <span class="name"><span class="dot gold"></span>GOLD</span>
-      <span class="range">201 ~ 249</span>
-      <span class="per">900원</span>
+      <span class="name">
+        <span class="dot gold"></span>
+        GOLD
+      </span>
+
+      <span class="range">251 ~ 300</span>
+
+      <span class="per">1,000원</span>
     </div>
-    <div class="tier-row" data-tier="platinum">
-      <span class="name"><span class="dot platinum"></span>PLATINUM</span>
-      <span class="range">250 ~ 349</span>
+
+    <div class="tier-row" data-tier="diamond">
+      <span class="name">
+        <span class="dot diamond"></span>
+        DIAMOND
+      </span>
+
+      <span class="range">301 ~ 330</span>
+
       <span class="per">1,200원</span>
     </div>
-    <div class="tier-row" data-tier="diamond">
-      <span class="name"><span class="dot diamond"></span>DIAMOND</span>
-      <span class="range">350+</span>
-      <span class="per">1,500원</span>
+
+    <div class="tier-row" data-tier="master">
+      <span class="name">
+        <span class="dot master"></span>
+        MASTER
+      </span>
+
+      <span class="range">331 ~ 360</span>
+
+      <span class="per">1,300원</span>
     </div>
+
+    <div class="tier-row" data-tier="legend">
+      <span class="name">
+        <span class="dot legend"></span>
+        LEGEND
+      </span>
+
+      <span class="range">361+</span>
+
+      <span class="per">1,400원</span>
+    </div>
+
   </div>
+
 </div>
 
 <script>
-// 누적 구간 (101건부터 시작)
+// 전 구간 누적 지급
 const bands = [
-  { name: 'BRONZE',   key: 'bronze',   from: 100, to: 150, per: 500  },
-  { name: 'SILVER',   key: 'silver',   from: 151, to: 200, per: 600  },
-  { name: 'GOLD',     key: 'gold',     from: 201, to: 249, per: 900  },
-  { name: 'PLATINUM', key: 'platinum', from: 250, to: 349, per: 1200 },
-  { name: 'DIAMOND',  key: 'diamond',  from: 350, to: Infinity, per: 1500 },
+  {
+    name: 'ENTRY',
+    key: 'entry',
+    from: 121,
+    to: 150,
+    per: 200
+  },
+
+  {
+    name: 'BRONZE',
+    key: 'bronze',
+    from: 151,
+    to: 200,
+    per: 500
+  },
+
+  {
+    name: 'SILVER',
+    key: 'silver',
+    from: 201,
+    to: 250,
+    per: 800
+  },
+
+  {
+    name: 'GOLD',
+    key: 'gold',
+    from: 251,
+    to: 300,
+    per: 1000
+  },
+
+  {
+    name: 'DIAMOND',
+    key: 'diamond',
+    from: 301,
+    to: 330,
+    per: 1200
+  },
+
+  {
+    name: 'MASTER',
+    key: 'master',
+    from: 331,
+    to: 360,
+    per: 1300
+  },
+
+  {
+    name: 'LEGEND',
+    key: 'legend',
+    from: 361,
+    to: Infinity,
+    per: 1400
+  }
 ];
 
 const icons = {
-  bronze: '🥉', silver: '🥈', gold: '🥇', platinum: '💎', diamond: '💠'
+  entry: '🚀',
+  bronze: '🥉',
+  silver: '🥈',
+  gold: '🥇',
+  diamond: '💎',
+  master: '👑',
+  legend: '🏆'
 };
 
 function calc() {
-  const n = parseInt(document.getElementById('count').value) || 0;
-  const card = document.getElementById('resultCard');
-  const badge = document.getElementById('tierBadge');
-  const totalEl = document.getElementById('totalAmt');
-  const bdEl = document.getElementById('breakdown');
 
-  document.querySelectorAll('.tier-row').forEach(r => r.classList.remove('highlight'));
+  const n =
+    parseInt(document.getElementById('count').value) || 0;
+
+  const card =
+    document.getElementById('resultCard');
+
+  const badge =
+    document.getElementById('tierBadge');
+
+  const totalEl =
+    document.getElementById('totalAmt');
+
+  const bdEl =
+    document.getElementById('breakdown');
+
+  // 초기화
+  document
+    .querySelectorAll('.tier-row')
+    .forEach(r => r.classList.remove('highlight'));
+
   card.className = 'result-card';
 
-  if (n < 100) {
-    card.classList.remove('active');
-    badge.innerHTML = '<span class="no-tier">100건 이상부터 적용</span>';
+  // 최소 조건
+  if (n < 121) {
+
+    badge.innerHTML =
+      '<span class="no-tier">121건 이상부터 적용</span>';
+
     totalEl.textContent = '0원';
+
     bdEl.innerHTML = '';
+
     return;
   }
 
@@ -361,27 +685,80 @@ function calc() {
   let rows = '';
 
   for (const b of bands) {
+
     if (n < b.from) break;
-    const count = Math.min(n, b.to) - b.from + 1;
-    const amt = count * b.per;
+
+    const upper =
+      Math.min(n, b.to);
+
+    const count =
+      upper - b.from + 1;
+
+    if (count <= 0) continue;
+
+    const amt =
+      count * b.per;
+
     total += amt;
+
     topTier = b;
 
-    rows += `<div class="bd-row ${b.key}">
-      <span class="bd-label"><span class="bd-tier">${icons[b.key]} ${b.name}</span> ${b.from}~${b.to === Infinity ? n : Math.min(n, b.to)}건 (${count}건 × ${b.per.toLocaleString()}원)</span>
-      <span class="bd-value">${amt.toLocaleString()}원</span>
-    </div>`;
+    rows += `
+      <div class="bd-row ${b.key}">
 
-    document.querySelector(`.tier-row[data-tier="${b.key}"]`)?.classList.add('highlight');
+        <span class="bd-label">
+
+          <span class="bd-tier">
+            ${icons[b.key]} ${b.name}
+          </span>
+
+          ${b.from} ~ ${upper}건
+          (${count}건 × ${b.per.toLocaleString()}원)
+
+        </span>
+
+        <span class="bd-value">
+          ${amt.toLocaleString()}원
+        </span>
+
+      </div>
+    `;
+
+    document
+      .querySelector(
+        \`.tier-row[data-tier="${b.key}"]\`
+      )
+      ?.classList.add('highlight');
   }
 
+  // 카드 활성화
   card.classList.add('active', topTier.key);
-  badge.innerHTML = `<span class="tier-badge ${topTier.key}">${icons[topTier.key]} ${topTier.name}</span>`;
-  totalEl.textContent = total.toLocaleString() + '원';
-  bdEl.innerHTML = `<div class="breakdown-title">구간별 내역</div>${rows}`;
+
+  // 뱃지
+  badge.innerHTML = `
+    <span class="tier-badge ${topTier.key}">
+      ${icons[topTier.key]}
+      ${topTier.name}
+    </span>
+  `;
+
+  // 총액
+  totalEl.textContent =
+    total.toLocaleString() + '원';
+
+  // 내역
+  bdEl.innerHTML = `
+    <div class="breakdown-title">
+      구간별 누적 내역
+    </div>
+
+    ${rows}
+  `;
 }
 
+// 초기 실행
 calc();
 </script>
+
 </body>
 </html>
